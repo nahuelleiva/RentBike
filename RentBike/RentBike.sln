@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2019
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentBike", "RentBike\RentBike.csproj", "{9189B17F-34AC-4F16-A24D-26BF7526AC52}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9189B17F-34AC-4F16-A24D-26BF7526AC52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9189B17F-34AC-4F16-A24D-26BF7526AC52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9189B17F-34AC-4F16-A24D-26BF7526AC52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9189B17F-34AC-4F16-A24D-26BF7526AC52}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CF8F2A80-5F57-4334-B3E5-FA08DE0BEBC1}
+	EndGlobalSection
+EndGlobal
