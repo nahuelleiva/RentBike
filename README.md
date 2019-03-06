@@ -11,3 +11,8 @@ In case client is with a family group, can get a 30% discount over the total ren
 * <b>RentTypeHelper:</b> a helper class that manage the interaction between the application and the user, controlling the inputs and set the data in the RentBikeModel object and acting like a message queue controller.
 * <b>DBConnector:</b> a helper to manage persistance between the application and an SQLite database.
 ![alt text](https://i.imgur.com/9lhaNwy.png)
+
+# To run tests
+* Clone the project from your Visual Studio IDE or download as a zip and the open it on Visual Studio.
+* Make sure you have available the Test Explorer window. If not go to Test -> Windows -> Test Explorer to make it visible
+* Then go to Test -> Run -> All tests and see the results on your Test Explorer
