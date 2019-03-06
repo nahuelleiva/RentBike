@@ -8,7 +8,7 @@ namespace RentBike.Test
         [TestCase]
         public void IsFamily()
         {
-            RentBikeModel rent = new RentBikeModel(3, 123, 1, "Hourly", 5);
+            RentBikeModel rent = new RentBikeModel(3, 123, 1, "Hourly", (int)RentType.Hour);
             Assert.AreEqual(1, rent.getIsFamily());
         }
 
@@ -16,7 +16,7 @@ namespace RentBike.Test
         public void isInserted() {
             DBConnector dBConnector = new DBConnector();
             dBConnector.CreateDB();
-            RentBikeModel rent = new RentBikeModel(3, 123, 1, "Hourly", 5);
+            RentBikeModel rent = new RentBikeModel(3, 123, 1, "Hourly", (int)RentType.Hour);
             dBConnector.InsertNewRent(rent);
             long totalRecords = dBConnector.GetTotalRecords();
             Assert.AreEqual(totalRecords > 1, totalRecords > 1);
@@ -24,11 +24,13 @@ namespace RentBike.Test
 
         [TestCase]
         public void checkIfIsString() {
-            DBConnector dBConnector = new DBConnector();
-            dBConnector.CreateDB();
-            RentBikeModel rent = new RentBikeModel(3, 123, 1, "Hourly", 5);
+            RentBikeModel rent = new RentBikeModel(3, 123, 1, "Hourly", (int)RentType.Hour);
             var message = RentBikeHelper.CalculateTotals(rent);
             Assert.AreEqual(typeof(string), message.GetType());
+        }
+
+        public void sendMessage() {
+
         }
     }
 }
