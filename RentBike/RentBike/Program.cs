@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace RentBike
@@ -16,6 +17,10 @@ namespace RentBike
             // rent more bikes or not.
             bool keepOpen = true;
             DBConnector dBConnector = new DBConnector();
+            string pathToFile = @"..\..\..\rentLog.txt";
+
+            // We try to create the file that handle all of our messages
+            RentBikeHelper.CreateFile(pathToFile);
 
             // Creating the database just once.
             try
@@ -30,6 +35,7 @@ namespace RentBike
             // Show a presentation
             RentBikeHelper.HowManyBikes();
 
+            // We'll try to keep the application open until the user hits the X button from the application
             while (keepOpen)
             {
                 RentBikeModel rentBikeModel = new RentBikeModel();
@@ -48,19 +54,16 @@ namespace RentBike
                 Console.Clear();
 
                 // Show rent type options here
-                RentBikeHelper.SelectOption();
-
-                // Always check if input is a number
-                // While is not a number, the app will continually ask for a valid input
-                while (!int.TryParse(Console.ReadLine(), out rentOptionSelected))
-                {
-                    RentBikeHelper.ClearScreen();
-                    RentBikeHelper.SelectOption();
-                }
+                rentOptionSelected = RentBikeHelper.SelectOption();
 
                 // Depending on the option that the user has selected we calculate totals
                 RentBikeHelper.CheckRentType(rentOptionSelected, d, rentBikeModel);
-                RentBikeHelper.CalculateTotals(rentBikeModel);
+
+                // We get the result message
+                var message = RentBikeHelper.CalculateTotals(rentBikeModel);
+
+                // We send the message to a queue
+                RentBikeHelper.SendMessage(message);
 
                 // We insert the new rent to our DB
                 try
@@ -71,6 +74,9 @@ namespace RentBike
                 {
                     throw;
                 }
+
+                // Then we write the messages from the queue
+                RentBikeHelper.RecieveMessage(pathToFile);
                 
 
                 // Then we ask to the client if he wants to do some other operations

@@ -57,7 +57,7 @@ namespace RentBike
         {
             var connection = GetInstance();
             var sqlInsert = string.Format("INSERT INTO Rents (Bikes, Total, IsFamily) VALUES ({0}, {1}, {2})", 
-                pNewRent.getBikes(), pNewRent.getTotal(), pNewRent.getIsFamily());
+                pNewRent.getBikes(), pNewRent.getTotal().ToString().Replace(",", "."), pNewRent.getIsFamily());
             SQLiteCommand command = new SQLiteCommand(sqlInsert, connection);
             command.ExecuteNonQuery();
         }

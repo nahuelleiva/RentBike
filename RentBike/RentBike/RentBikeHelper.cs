@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace RentBike
 {
@@ -7,18 +9,33 @@ namespace RentBike
     /// </summary>
     public class RentBikeHelper
     {
+        static bool isFileCreated = false;
+        static Queue<string> messageQueue = new Queue<string>();
+
         public static void ClearScreen()
         {
+            Console.Clear();
             Console.WriteLine("Please, enter a correct value :)");
             System.Threading.Thread.Sleep(1000);
             Console.Clear();
         }
 
-        public static void SelectOption() {
+        public static int SelectOption() {
+            int rentOptionSelected = 0;
             Console.WriteLine("Select the rent type that you want for your bike(s):\n" +
                                   "1 to select a hourly rent. We charge you $5 per hour.\n" +
                                   "2 to select a daily rent. We charge you $20 per day.\n" +
                                   "3 to select a weekly rent. We charge you $60 per week.");
+            while (!int.TryParse(Console.ReadLine(), out rentOptionSelected) || rentOptionSelected == 0 || rentOptionSelected > 3)
+            {
+                ClearScreen();
+                Console.WriteLine("Let's try again! This time choose an option from 1 to 3, please :)");
+                Console.WriteLine("Select the rent type that you want for your bike(s):\n" +
+                                  "1 to select a hourly rent. We charge you $5 per hour.\n" +
+                                  "2 to select a daily rent. We charge you $20 per day.\n" +
+                                  "3 to select a weekly rent. We charge you $60 per week.");
+            }
+            return rentOptionSelected;
         }
 
         public static void HowManyBikes()
@@ -111,9 +128,11 @@ namespace RentBike
                     rentBikeModel.setRentType("Weekly");
                     break;
             }
+
+
         }
 
-        public static void CalculateTotals(RentBikeModel rentBikeModel) {
+        public static string CalculateTotals(RentBikeModel rentBikeModel) {
             rentBikeModel.setTotal(rentBikeModel.getChargeByRentType() * rentBikeModel.getD());
             rentBikeModel.MakeFamilyDiscount();
 
@@ -122,6 +141,37 @@ namespace RentBike
                                             "Bikes: {0} Rent type choosen: {1} Total: {2}", 
                                             rentBikeModel.getBikes(), rentBikeModel.getRentType(), 
                                             rentBikeModel.getTotal()));
+            string message = string.Format("Operation time: {0}, Bikes: {1}, Rent type: {2}, Quantity: {3}, Total: {4}",
+                                           DateTime.Now.ToString(), rentBikeModel.getBikes(), rentBikeModel.getRentType(), 
+                                           rentBikeModel.getD(), rentBikeModel.getTotal());
+            return message;
         }
+
+        public static void CreateFile(string pathToFile) {
+            if (!File.Exists(Path.GetFullPath(pathToFile)))
+            {
+                try
+                {
+                    File.Create(Path.GetFullPath(pathToFile));
+                    isFileCreated = true;
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+            }
+        }
+
+        public static void SendMessage(string message) {
+            messageQueue.Enqueue(message);
+        }
+
+        public static void RecieveMessage(string pathToFile) {
+            foreach (var item in messageQueue)
+            {
+                File.AppendAllText(Path.GetFullPath(pathToFile), item + Environment.NewLine);
+            }
+        }
+        
     }
 }

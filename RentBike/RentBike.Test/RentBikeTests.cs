@@ -21,5 +21,14 @@ namespace RentBike.Test
             long totalRecords = dBConnector.GetTotalRecords();
             Assert.AreEqual(totalRecords > 1, totalRecords > 1);
         }
+
+        [TestCase]
+        public void checkIfIsString() {
+            DBConnector dBConnector = new DBConnector();
+            dBConnector.CreateDB();
+            RentBikeModel rent = new RentBikeModel(3, 123, 1, "Hourly", 5);
+            var message = RentBikeHelper.CalculateTotals(rent);
+            Assert.AreEqual(typeof(string), message.GetType());
+        }
     }
 }
