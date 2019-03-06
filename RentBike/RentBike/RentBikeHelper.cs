@@ -11,6 +11,8 @@ namespace RentBike
     {
         static bool isFileCreated = false;
         static Queue<string> messageQueue = new Queue<string>();
+        static RentBikeModel rentBikeModel = new RentBikeModel();
+        static DBConnector dBConnector = new DBConnector();
 
         public static void ClearScreen()
         {
@@ -40,11 +42,21 @@ namespace RentBike
 
         public static void HowManyBikes()
         {
+            var bikes = 0;
             Console.WriteLine("Welcome aboard! We are glad to rent you bikes\n" +
                               "to spend some good time traveling by yourself or in\n" +
                               "company of your family, and making you life healthier :)\n");
             Console.WriteLine("Tell us how many people you are. If you are a family group,\n" +
                               "you'll have a 30% discount! (only 3 to 5 family members allowed):");
+            while (!int.TryParse(Console.ReadLine(), out bikes))
+            {
+                Console.Clear();
+                Console.WriteLine("Let's try again!");
+                Console.WriteLine("Tell us how many people you are. If you are a family group,\n" +
+                                  "you'll have a 30% discount! (only 3 to 5 family members allowed):");
+            }
+            rentBikeModel.setBikes(bikes);
+
         }
 
         public static void RentAgain() {
@@ -63,10 +75,10 @@ namespace RentBike
             HowManyBikes();
         }
 
-        public static void CheckIfFamilyGroup(int bikes_, RentBikeModel rentBikeModel)
+        public static void CheckIfFamilyGroup()
         {
             rentBikeModel.setIsFamily(0);
-            if (bikes_ >= 3 && bikes_ <= 5)
+            if (rentBikeModel.getBikes() >= 3 && rentBikeModel.getBikes() <= 5)
             {
                 Console.Clear();
                 Console.WriteLine("Are you a family group? Type Y or N:");
@@ -90,7 +102,7 @@ namespace RentBike
             }
         }
 
-        public static void CheckRentType(int rentOptionSelected_, int d, RentBikeModel rentBikeModel)
+        public static void CheckRentType(int rentOptionSelected_, int d)
         {
             switch (rentOptionSelected_)
             {
@@ -132,7 +144,7 @@ namespace RentBike
 
         }
 
-        public static string CalculateTotals(RentBikeModel rentBikeModel) {
+        public static string CalculateTotals() {
             rentBikeModel.setTotal(rentBikeModel.getChargeByRentType() * rentBikeModel.getD());
             rentBikeModel.MakeFamilyDiscount();
 
@@ -144,6 +156,18 @@ namespace RentBike
             string message = string.Format("Operation time: {0}, Bikes: {1}, Rent type: {2}, Quantity: {3}, Total: {4}",
                                            DateTime.Now.ToString(), rentBikeModel.getBikes(), rentBikeModel.getRentType(), 
                                            rentBikeModel.getD(), rentBikeModel.getTotal());
+            // We insert the new rent to our DB
+            // Creating the database just once.
+            try
+            {
+                dBConnector.CreateDB();
+                dBConnector.InsertNewRent(rentBikeModel);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+
             return message;
         }
 

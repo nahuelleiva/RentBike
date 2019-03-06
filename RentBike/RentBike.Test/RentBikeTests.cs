@@ -13,6 +13,12 @@ namespace RentBike.Test
         }
 
         [TestCase]
+        public void isRent() {
+            RentBikeModel rent = new RentBikeModel();
+            Assert.AreEqual(typeof(RentBikeModel), rent);
+        }
+
+        [TestCase]
         public void isInserted() {
             DBConnector dBConnector = new DBConnector();
             dBConnector.CreateDB();
