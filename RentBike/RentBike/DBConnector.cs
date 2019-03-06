@@ -29,6 +29,7 @@ namespace RentBike
             {
                 if (IsDbRecentlyCreated)
                 {
+                    var path = Path.GetFullPath(SQLScript);
                     using (var reader = new StreamReader(Path.GetFullPath(SQLScript)))
                     {
                         // We take the file that has the SQL instruction and we execute it
@@ -54,9 +55,10 @@ namespace RentBike
         /// <param name="pNewRent">Rent object to be added to DB</param>
         public void InsertNewRent(RentBikeModel pNewRent)
         {
+            var connection = GetInstance();
             var sqlInsert = string.Format("INSERT INTO Rents (Bikes, Total, IsFamily) VALUES ({0}, {1}, {2})", 
                 pNewRent.getBikes(), pNewRent.getTotal(), pNewRent.getIsFamily());
-            SQLiteCommand command = new SQLiteCommand(sqlInsert, GetInstance());
+            SQLiteCommand command = new SQLiteCommand(sqlInsert, connection);
             command.ExecuteNonQuery();
         }
 
@@ -73,6 +75,14 @@ namespace RentBike
             db.Open();
 
             return db;
+        }
+
+        public long GetTotalRecords() {
+            var connection = GetInstance();
+            var sqlSelect = "SELECT COUNT(*) FROM Rents";
+            SQLiteCommand command = new SQLiteCommand(sqlSelect, connection);
+            long total = (long)command.ExecuteScalar();
+            return total;
         }
     }
 }
