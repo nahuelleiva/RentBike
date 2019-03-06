@@ -9,13 +9,13 @@ namespace RentBike
     public class DBConnector
     {
         private const string DBName = "database.sqlite";
-        private const string SQLScript = @"..\..\Scripts\database.sql";
+        private const string SQLScript = @"..\..\..\Scripts\database.sql";
         private static bool IsDbRecentlyCreated = false;
 
         /// <summary>
         /// Creates the database for future usages.
         /// </summary>
-        public static void CreateDB()
+        public void CreateDB()
         {
             // Creates the db just once
             if (!File.Exists(Path.GetFullPath(DBName)))
@@ -47,7 +47,11 @@ namespace RentBike
                 }
             }
         }
-
+        
+        /// <summary>
+        /// Insert a new object to database
+        /// </summary>
+        /// <param name="pNewRent">Rent object to be added to DB</param>
         public void InsertNewRent(RentBikeModel pNewRent)
         {
             var sqlInsert = string.Format("INSERT INTO Rents (Bikes, Total, IsFamily) VALUES ({0}, {1}, {2})", 
