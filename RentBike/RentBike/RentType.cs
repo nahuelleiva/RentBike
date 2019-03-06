@@ -1,11 +1,9 @@
 ﻿namespace RentBike
 {
-    public class RentType
+    public enum RentType
     {
-        private enum RentType_ {
-            Hour = 5,
-            Daily = 20,
-            Weekley = 60
-        }
+        Hour = 5,
+        Daily = 20,
+        Weekly = 60
     }
 }
