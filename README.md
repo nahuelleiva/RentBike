@@ -8,6 +8,6 @@ In case client is with a family group, can get a 30% discount over the total ren
 # Design
 * <b>RentBikeModel:</b> the main class that has all the structure to persist data about the bike rents.
 * <b>RentType:</b> an enum class that contains the different charges depending on the rent type.
-* <b>RentTypeHelper:</b> a helper class that manage the interaction between the application and the user, controlling the inputs and set the data in the RentBikeModel object.
+* <b>RentTypeHelper:</b> a helper class that manage the interaction between the application and the user, controlling the inputs and set the data in the RentBikeModel object and acting like a message queue controller.
 * <b>DBConnector:</b> a helper to manage persistance between the application and an SQLite database.
 ![alt text](https://i.imgur.com/9lhaNwy.png)
