@@ -14,6 +14,6 @@ In case client is with a family group, can get a 30% discount over the total ren
 ![alt text](https://i.imgur.com/tFP0ULL.png)
 
 # To run tests
-* Clone the project from your Visual Studio IDE or download as a zip and the open it on Visual Studio.
+* Clone the project from your Visual Studio IDE or download as a zip and then open it on Visual Studio.
 * Make sure you have available the Test Explorer window. If not go to <b>Test</b> -> <b>Windows</b> -> <b>Test Explorer</b> to make it visible
 * Then go to <b>Test</b> -> <b>Run</b> -> <b>All Tests</b> and see the results on your Test Explorer
