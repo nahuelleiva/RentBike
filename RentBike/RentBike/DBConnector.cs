@@ -77,6 +77,10 @@ namespace RentBike
             return db;
         }
 
+        /// <summary>
+        /// Returns the total of records stored
+        /// </summary>
+        /// <returns>int</returns>
         public long GetTotalRecords() {
             var connection = GetInstance();
             var sqlSelect = "SELECT COUNT(*) FROM Rents";

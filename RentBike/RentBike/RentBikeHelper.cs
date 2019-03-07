@@ -14,6 +14,9 @@ namespace RentBike
         static RentBikeModel rentBikeModel = new RentBikeModel();
         static DBConnector dBConnector = new DBConnector();
 
+        /// <summary>
+        /// Clears the screen and display a brief message if the input was incorrect
+        /// </summary>
         public static void ClearScreen()
         {
             Console.Clear();
@@ -22,6 +25,10 @@ namespace RentBike
             Console.Clear();
         }
 
+        /// <summary>
+        /// Displays the different types of bike rents that the user has to choose and returns the option selected
+        /// </summary>
+        /// <returns>int</returns>
         public static int SelectOption() {
             int rentOptionSelected = 0;
             Console.WriteLine("Select the rent type that you want for your bike(s):\n" +
@@ -40,6 +47,9 @@ namespace RentBike
             return rentOptionSelected;
         }
 
+        /// <summary>
+        /// Shows a brief presentation to the application and ask for the amount of people that want to ride bikes
+        /// </summary>
         public static void HowManyBikes()
         {
             var bikes = 0;
@@ -59,6 +69,9 @@ namespace RentBike
 
         }
 
+        /// <summary>
+        /// Shows a message in any case that the users wants to keep renting bikes or not
+        /// </summary>
         public static void RentAgain() {
             Console.WriteLine("=======================================================");
             Console.WriteLine("Do you want to rent more bikes? Y or N for confirmation:");
@@ -75,6 +88,9 @@ namespace RentBike
             HowManyBikes();
         }
 
+        /// <summary>
+        /// Check if it is a familiar group
+        /// </summary>
         public static void CheckIfFamilyGroup()
         {
             rentBikeModel.setIsFamily(0);
@@ -102,6 +118,11 @@ namespace RentBike
             }
         }
 
+        /// <summary>
+        /// Taking the type of rent selected sets the correspondent money charge
+        /// </summary>
+        /// <param name="rentOptionSelected_">Rent type option</param>
+        /// <param name="d">Amount of days/hours/weeks that the bikes will be rented</param>
         public static void CheckRentType(int rentOptionSelected_, int d)
         {
             switch (rentOptionSelected_)
@@ -144,6 +165,10 @@ namespace RentBike
 
         }
 
+        /// <summary>
+        /// Calculates the total of the rent and returns a message to be written in a log file
+        /// </summary>
+        /// <returns></returns>
         public static string CalculateTotals() {
             rentBikeModel.setTotal(rentBikeModel.getChargeByRentType() * rentBikeModel.getD());
             rentBikeModel.MakeFamilyDiscount();
@@ -156,8 +181,8 @@ namespace RentBike
             string message = string.Format("Operation time: {0}, Bikes: {1}, Rent type: {2}, Quantity: {3}, Total: {4}",
                                            DateTime.Now.ToString(), rentBikeModel.getBikes(), rentBikeModel.getRentType(), 
                                            rentBikeModel.getD(), rentBikeModel.getTotal());
-            // We insert the new rent to our DB
-            // Creating the database just once.
+
+            // We create the database once and try to insert the new Rent
             try
             {
                 dBConnector.CreateDB();
@@ -171,6 +196,10 @@ namespace RentBike
             return message;
         }
 
+        /// <summary>
+        /// Creates the log file
+        /// </summary>
+        /// <param name="pathToFile">Path to the log file to be created</param>
         public static void CreateFile(string pathToFile) {
             if (!File.Exists(Path.GetFullPath(pathToFile)))
             {
@@ -186,10 +215,18 @@ namespace RentBike
             }
         }
 
+        /// <summary>
+        /// Enqueue the message to be written in the log file
+        /// </summary>
+        /// <param name="message">Message to be written in log file</param>
         public static void SendMessage(string message) {
             messageQueue.Enqueue(message);
         }
 
+        /// <summary>
+        /// Writes the message in the log file
+        /// </summary>
+        /// <param name="pathToFile">Path to the log file</param>
         public static void RecieveMessage(string pathToFile) {
             foreach (var item in messageQueue)
             {
